@@ -10,6 +10,7 @@ pipeline {
     stages {
 
         stage('AWS') {
+            // test
             agent {
                 docker {
                     image 'amazon/aws-cli'
