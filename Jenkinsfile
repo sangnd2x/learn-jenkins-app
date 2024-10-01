@@ -1,7 +1,7 @@
 pipeline {
    agent {
         docker {
-            image 'docker:latest'
+            image 'docker:19.03.12'
             args '--privileged' // Required for Docker-in-Docker
         }
     }
