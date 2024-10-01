@@ -1,16 +1,10 @@
 pipeline {
-   agent {
-        docker {
-            image 'docker:19.03.12'
-            args '--privileged' // Required for Docker-in-Docker
-        }
-    }
+    agent any
 
     stages {
-        stage('Check Docker Version') {
+        stage('Run in Docker') {
             steps {
-                script {
-                    // Check Docker version
+                docker.image('docker:19.03.12').inside('--privileged') {
                     sh 'docker --version'
                 }
             }
