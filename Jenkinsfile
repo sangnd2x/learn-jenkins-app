@@ -1,31 +1,18 @@
 pipeline {
-    agent any
-   
+    agent {
+        docker {
+            image 'docker:latest' // Use the Docker-in-Docker image
+            args '-v /var/run/docker.sock:/var/run/docker.sock' // Share the Docker socket
+        }
+    }
+
     stages {
-        stage('Install Docker') {
+        stage('Check Docker Version') {
             steps {
                 script {
-                    // Install Docker commands
-                    sh '''
-                        # Update the package manager
-                        apt-get update
-                        
-                        # Install Docker (example for Ubuntu)
-                        apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-                        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-                        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-                        apt-get update
-                        apt-get install -y docker-ce
-                    '''
+                    // Check Docker version
+                    sh 'docker --version'
                 }
-            }
-        }
-
-        stage('Check Docker') {
-            steps {
-                sh '''
-                    docker --version
-                '''
             }
         }
     }
